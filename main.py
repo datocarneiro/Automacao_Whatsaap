@@ -1,46 +1,57 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
 import pyautogui
 import time
-import argparse
-                                              # Automação  V0.0.1 
-    # Configurar o parser de argumentos
-parser = argparse.ArgumentParser(description='Exemplo de script com argumentos.')
-parser.add_argument('--mensagem', type=str, help='Mensagem a ser enviada')
-    # Obter os argumentos da linha de comando
-args = parser.parse_args()
 
-pyautogui.hotkey("win", "s")
-time.sleep(1)
-pyautogui.write("Whatsapp")
-time.sleep(2) 
-pyautogui.press("enter") 
-time.sleep(3) 
+class WhatsappAutomacaoApp:
+    def __init__(self, root):
+        self.root = root
+        root.title("automação Dato... Mensagens em lote para grupos de Whatsapp")
 
-def enviar_mensagem(usuario, mensagem):
+        self.mensagem_label = ttk.Label(root, text="Digite sua Mensagem:")
+        self.mensagem_label.grid(row=0, column=50, padx=60, pady=80, sticky="W")
 
-    # Digitar na barra de pesquisa do software o nome do usuário
-    pyautogui.write(usuario)
-    time.sleep(1)
-    
-    # Clicar no resultado da pesquisa
-    pyautogui.click(x=205, y=199)  # Ajuste as coordenadas (x, y) conforme necessário
-    time.sleep(3)
-    
-    # Enviar mensagem para o contato específico
-    pyautogui.write(mensagem)
-    time.sleep(5)
-    pyautogui.press("enter")
-  
-usuarios_alvo = ['ANOTAÇÕES FACULDADE', 'Anotações']
-# usuarios_alvo2 =["Minha empresa"]
-for usuario in usuarios_alvo:
-    enviar_mensagem(usuario, args.mensagem)
-    time.sleep(2) 
-    pyautogui.hotkey('ctrl', 'f')
-    time.sleep(2) 
-    print("Envidado para :"+usuario)
+        self.mensagem_text = tk.Text(root, wrap="word", width=80, height=20)
+        self.mensagem_text.grid(row=0, column=1, columnspan=2, padx=10, pady=10, sticky="W")
 
-print("Todas as mensagens foram enviadas!")
-'''
- python main3.py --mensagem "Tem video novo no canal! Se inscreva e não perca os cursos de Python e Javascrip. https://youtu.be/JM0x2xPll94?si=_HXqVRBj8QZ4OS-w "
+        self.enviar_button = ttk.Button(root, text="Enviar Mensagens", command=self.enviar_mensagens)
+        self.enviar_button.grid(row=1, column=0, columnspan=3, pady=10)
 
-'''
+    def enviar_mensagens(self):
+        mensagem = self.mensagem_text.get("1.0", "end-1c")
+
+        if not mensagem.strip():
+            messagebox.showwarning("Aviso", "Por favor, digite uma mensagem.")
+            return
+
+        pyautogui.hotkey("win", "s")
+        time.sleep(1)
+        pyautogui.write("Whatsapp")
+        time.sleep(2)
+        pyautogui.press("enter")
+        time.sleep(3)
+
+        usuarios_alvo = ['ANOTACOES FACULDADE', 'Anotacoes Dato']
+
+        for usuario in usuarios_alvo:
+            self.enviar_mensagem(usuario, mensagem)
+            time.sleep(2)
+            pyautogui.hotkey('ctrl', 'f')
+            time.sleep(2)
+            print("Enviado para: " + usuario)
+
+        print("Todas as mensagens foram enviadas!")
+
+    def enviar_mensagem(self, usuario, mensagem):
+        pyautogui.write(usuario)
+        time.sleep(1)
+        pyautogui.click(x=205, y=199)
+        time.sleep(1)
+        pyautogui.write(mensagem)
+        time.sleep(2)
+        pyautogui.press("enter")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = WhatsappAutomacaoApp(root)
+    root.mainloop()
