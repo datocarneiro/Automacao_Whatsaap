@@ -8,10 +8,9 @@ bashCopy code
     pip install tkinter pyautogui 
 
 # Como Utilizar
-1.	Execute o script Python.
-bashCopy code
-python main.py 
+    * é necessario instalar o whatsapp para desktop (aplicativo)
 
+    1.	Execute o script Python.python main.py 
     2.	A interface gráfica será exibida com uma caixa de texto para você digitar sua mensagem.
     3.	Digite a mensagem desejada na caixa de texto.
     4.	Clique no botão "Enviar Mensagens".
