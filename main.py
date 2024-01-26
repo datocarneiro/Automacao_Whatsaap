@@ -6,7 +6,7 @@ import time
 class WhatsappAutomacaoApp:
     def __init__(self, root):
         self.root = root
-        root.title("automação Dato... Mensagens em lote para grupos de Whatsapp")
+        root.title("Automação Dato... Mensagens em lote para grupos de Whatsapp")
 
         self.mensagem_label = ttk.Label(root, text="Digite sua Mensagem:")
         self.mensagem_label.grid(row=0, column=50, padx=60, pady=80, sticky="W")
@@ -18,7 +18,7 @@ class WhatsappAutomacaoApp:
         self.enviar_button.grid(row=1, column=0, columnspan=3, pady=10)
 
     def enviar_mensagens(self):
-        mensagem = self.mensagem_text.get("1.0", "end-1c")
+        mensagem = self.mensagem_text.get("1.0", "end")
 
         if not mensagem.strip():
             messagebox.showwarning("Aviso", "Por favor, digite uma mensagem.")
@@ -45,11 +45,22 @@ class WhatsappAutomacaoApp:
     def enviar_mensagem(self, usuario, mensagem):
         pyautogui.write(usuario)
         time.sleep(1)
-        pyautogui.click(x=205, y=199)
+        pyautogui.click(x=285, y=230)
         time.sleep(1)
-        pyautogui.write(mensagem)
-        time.sleep(2)
+
+        # Divida a mensagem em linhas e envie cada linha individualmente
+        linhas = mensagem.split('\n')
+
+        for i, linha in enumerate(linhas):
+            pyautogui.write(linha)
+            if i < len(linhas) - 1:
+                # Simule a tecla Shift+Enter para uma quebra de linha
+                pyautogui.keyDown('shift')
+                pyautogui.press('enter')
+                pyautogui.keyUp('shift')
+
         pyautogui.press("enter")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
